@@ -1,4 +1,6 @@
+# --------------------
 # Python
+# --------------------
 __pycache__/
 *.pyc
 *.pyo
@@ -7,28 +9,31 @@ __pycache__/
 .venv
 venv/
 
-# OS
+# --------------------
+# OS files
+# --------------------
 .DS_Store
 Thumbs.db
 
-# Models (optional – keep if required)
-# models/
-
-# DATASETS (IMPORTANT)
+# --------------------
+# Data & datasets
+# --------------------
 data/
-data/**
 *.pdf
+*.zip
 
+# --------------------
 # Logs & temp
+# --------------------
 *.log
 *.tmp
 
+# --------------------
 # Jupyter
+# --------------------
 .ipynb_checkpoints/
 
+# --------------------
 # Docker
+# --------------------
 *.tar
-
-LexiScan-Auto_NER_Handoff.zip
-*.zip
-
