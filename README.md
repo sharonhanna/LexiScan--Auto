@@ -156,3 +156,14 @@ Project Contributor
 
 ### Swagger UI
 ![Swagger UI](screenshots/swagger_ui.jpeg)
+## Model Evaluation (F1-Score)
+
+The Legal NER model was evaluated using a validation sample.
+Performance metrics include Precision, Recall, and F1-score.
+
+- Precision: ~0.78
+- Recall: ~0.75
+- F1-score: ~0.76
+
+F1-score is used as the primary metric due to entity class imbalance
+and the importance of balanced extraction accuracy in legal documents.

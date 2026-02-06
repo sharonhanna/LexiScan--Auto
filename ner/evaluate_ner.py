@@ -1,44 +1,42 @@
 import spacy
-from spacy.training import Example
 from spacy.scorer import Scorer
+from spacy.training import Example
+import os
 
-# Load trained NER model
-nlp = spacy.load("models/legal_ner_model")
+# Load trained model
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, "models", "legal_ner_model")
 
-# Sample evaluation text (small is OK for demo)
-text = "This agreement shall terminate on 07/09/1999 for $250000."
+nlp = spacy.load(MODEL_PATH)
 
-# Gold annotations (character offsets)
-annotations = {
-    "entities": [
-        (32, 42, "DATE"),
-        (47, 54, "MONEY")
-    ]
-}
+# Sample evaluation data (small but valid)
+EVAL_DATA = [
+    (
+        "This Agreement is made on 12 January 2022 between ABC Corp and XYZ Ltd for $50000.",
+        {
+            "entities": [
+                (27, 42, "DATE"),
+                (51, 59, "ORG"),
+                (64, 71, "ORG"),
+                (76, 82, "MONEY")
+            ]
+        }
+    )
+]
 
-# ---- CREATE DOCS ----
-
-# Predicted doc
-doc = nlp(text)
-
-# Gold doc (manual, alignment-safe)
-gold_doc = nlp.make_doc(text)
-
-valid_ents = []
-for start, end, label in annotations["entities"]:
-    span = gold_doc.char_span(start, end, label=label)
-    if span is not None:      # skip misaligned entities safely
-        valid_ents.append(span)
-
-gold_doc.ents = valid_ents
-
-# ---- CREATE EXAMPLE ----
-example = Example(doc, gold_doc)
-
-# ---- SCORE ----
 scorer = Scorer()
-scores = scorer.score([example])
-print("NER Evaluation Metrics:")
-print(scores)
+examples = []
 
+for text, annotations in EVAL_DATA:
+    doc = nlp.make_doc(text)
+    example = Example.from_dict(doc, annotations)
+    example.predicted = nlp(text)
+    examples.append(example)
 
+scores = scorer.score(examples)
+
+print("\n📊 NER Evaluation Metrics")
+print("------------------------")
+print(f"Precision: {scores['ents_p']:.2f}")
+print(f"Recall:    {scores['ents_r']:.2f}")
+print(f"F1-score:  {scores['ents_f']:.2f}")
