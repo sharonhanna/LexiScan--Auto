@@ -1,30 +1,44 @@
-📄 LexiScan-Auto — Intelligent Legal Document Processing System
+LexiScan-Auto
 
-LexiScan-Auto is an end-to-end Intelligent Document Processing (IDP) system designed to extract structured legal information from scanned or digital contract PDFs using OCR + NLP + custom-trained Legal NER models, exposed through a FastAPI service and deployable via Docker.
+Intelligent Legal Document Processing System
 
-🚀 Key Features
+Overview
 
-📑 PDF Ingestion (Scanned & Digital Contracts)
+LexiScan-Auto is an end-to-end Intelligent Document Processing (IDP) system that automatically extracts structured legal information from scanned and digital contract PDFs.
+The system combines OCR, custom-trained Legal Named Entity Recognition (NER), and rule-based post-processing, and exposes the pipeline through a FastAPI REST service, with optional Docker-based deployment.
 
-🔍 OCR-based Text Extraction using Tesseract
+The project is designed to reduce manual contract review time by converting unstructured legal documents into structured, machine-readable JSON.
 
-🧠 Custom Legal Named Entity Recognition (NER)
+Problem Statement
 
-Trained on the CUAD (Contract Understanding Atticus Dataset)
+Legal contracts are lengthy, complex, and time-consuming to analyze manually.
+Organizations require automated systems to extract key information such as:
 
-📊 Structured JSON Output
+Parties involved
 
-Parties
+Contract dates
 
-Dates
+Monetary values
 
-Monetary Amounts
+LexiScan-Auto addresses this challenge using NLP-driven automation.
 
-⚡ FastAPI-based REST API
+Key Features
 
-🐳 Fully Dockerized for Deployment
+Supports both scanned and digital PDFs
 
-🧠 System Architecture
+OCR-based text extraction using Tesseract
+
+Custom Legal NER model trained on the CUAD dataset
+
+Hybrid extraction using NER + Regex-based validation
+
+Structured JSON output for downstream use
+
+REST API built using FastAPI
+
+Optional Dockerized execution
+
+System Architecture
 PDF Document
      ↓
 OCR (Tesseract)
@@ -33,70 +47,71 @@ Text Preprocessing
      ↓
 Custom Legal NER (spaCy)
      ↓
-Post-processing + Regex Extraction
+Post-processing & Validation
      ↓
 Structured JSON Output (FastAPI)
 
-🛠️ Tech Stack
+Technology Stack
 
-Python
+Programming Language: Python
 
-spaCy (Custom-trained Legal NER model)
+NLP Framework: spaCy (custom-trained Legal NER)
 
-FastAPI (API Layer)
+OCR Engine: Tesseract
 
-Tesseract OCR
+API Framework: FastAPI
 
-Docker
+Containerization: Docker
 
-CUAD Dataset
+Dataset: CUAD (Contract Understanding Atticus Dataset)
 
-📂 Project Structure
+Project Structure
 LexiScan-Auto/
 ├── api/                 # FastAPI application
 ├── ocr/                 # OCR pipeline
-├── ner/                 # NER training & inference
-├── pipeline/            # End-to-end pipeline runner
-├── models/              # Trained spaCy NER model
-├── utils/               # Regex-based extractors
-├── data/                # (Ignored) datasets
+├── ner/                 # NER training, inference & evaluation
+├── pipeline/            # End-to-end execution pipeline
+├── models/              # Trained spaCy Legal NER model
+├── utils/               # Regex-based extractors & validators
+├── data/                # Ignored dataset files
 ├── Dockerfile
 ├── requirements.txt
 ├── README.md
 ├── sample_contract.pdf
 ├── sample_output.json
 
-▶️ Run Locally (Without Docker)
-1️⃣ Install dependencies
+Running the Project Locally (Without Docker)
+1. Install dependencies
 pip install -r requirements.txt
 
-2️⃣ Start the API server
+2. Start the API server
 uvicorn api.app:app --reload
 
-3️⃣ Open Swagger UI
+3. Access Swagger UI
 http://127.0.0.1:8000/docs
 
-🐳 Run with Docker
-1️⃣ Build Docker image
+Running with Docker
+1. Build Docker image
 docker build -t lexiscan-auto .
 
-2️⃣ Run container
+2. Run the container
 docker run -p 8000:8000 lexiscan-auto
 
-3️⃣ Access API
+3. Access API
 http://localhost:8000/docs
 
-📥 API Usage
+API Specification
 Endpoint
 POST /extract
 
-Input Options
+Input
 
 Upload a PDF file
+OR
 
-OR provide raw text
+Provide raw contract text
 
-Example Response
+Output (Sample)
 {
   "status": "success",
   "entities": {
@@ -106,13 +121,29 @@ Example Response
   }
 }
 
-📌 Sample Files
+Model Evaluation
 
-sample_contract.pdf — Example legal contract
+The Legal NER model was evaluated using a validation sample.
 
-sample_output.json — Example extracted entities
+Metrics Used
 
-🎯 Use Cases
+Precision
+
+Recall
+
+F1-score
+
+Results
+
+Precision: ~0.78
+
+Recall: ~0.75
+
+F1-score: ~0.76
+
+F1-score is treated as the primary metric due to entity class imbalance and the importance of balanced extraction accuracy in legal NLP systems.
+
+Use Cases
 
 Legal contract analysis
 
@@ -124,46 +155,34 @@ Enterprise document intelligence
 
 AI-powered legal assistants
 
-🔮 Future Enhancements
+Contributions:
+Work Done by Sharon Hanna
 
-Support for additional legal entity types
+Designed and implemented the complete OCR pipeline using Tesseract
 
-Improved OCR accuracy for scanned documents
+Integrated PDF ingestion for both scanned and digital contracts
 
-Database integration
+Performed CUAD dataset ingestion and preprocessing
 
-Frontend dashboard
+Converted CUAD data into spaCy-compatible NER training format
 
-Cloud deployment (AWS/GCP)
+Trained a custom Legal NER model using spaCy
 
-## 👩‍💻 Contributors
+Implemented NER inference and evaluation with Precision, Recall, and F1-score
 
-**Sharon Hanna**  
-B.Tech — Artificial Intelligence & Data Science  
+Built rule-based post-processing and validation logic (regex + cleanup)
 
-**Samyuktha Vijayakumar**  
-Project Contributor
+Developed the end-to-end extraction pipeline
 
-# LexiScan Auto
+Implemented FastAPI REST API for contract entity extraction
 
-## Screenshots
+Structured output into clean JSON format
 
-### API Response
-![API Response](screenshots/api_response.jpeg)
+Prepared Docker configuration for containerized execution
 
-### Docker Running
-![Docker Running](screenshots/docker_running.jpeg)
+Created documentation, sample inputs, and evaluation scripts
 
-### Swagger UI
-![Swagger UI](screenshots/swagger_ui.jpeg)
-## Model Evaluation (F1-Score)
+Contributors
 
-The Legal NER model was evaluated using a validation sample.
-Performance metrics include Precision, Recall, and F1-score.
-
-- Precision: ~0.78
-- Recall: ~0.75
-- F1-score: ~0.76
-
-F1-score is used as the primary metric due to entity class imbalance
-and the importance of balanced extraction accuracy in legal documents.
+Sharon Hanna A
+Samyuktha Vijayakumar
