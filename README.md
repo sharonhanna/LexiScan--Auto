@@ -144,18 +144,21 @@ F1-score is treated as the primary metric due to entity class imbalance and the 
 
 <u>Work Done by Sharon Hanna</u>
 
-* **Designed and implemented the complete OCR pipeline using Tesseract**
-* **Integrated PDF ingestion for both scanned and digital contracts**
-* **Performed CUAD dataset ingestion and preprocessing**
-* **Converted CUAD data into spaCy-compatible NER training format**
-* **Trained a custom Legal NER model using spaCy**
-* **Implemented NER inference and evaluation with Precision, Recall, and F1-score**
-* **Built rule-based post-processing and validation logic (regex + cleanup)**
-* **Developed the end-to-end extraction pipeline**
-* **Implemented FastAPI REST API for contract entity extraction**
-* **Structured output into clean JSON format**
-* **Prepared Docker configuration for containerized execution**
-* **Created documentation, sample inputs, and evaluation scripts**
+- **Designed and implemented the OCR pipeline using Tesseract for both scanned and digital PDF contracts**
+- **Integrated PDF ingestion and text extraction into the overall processing workflow**
+- **Performed CUAD dataset ingestion, preprocessing, and annotation preparation**
+- **Converted CUAD data into spaCy-compatible format for Legal NER training**
+- **Trained a custom Legal Named Entity Recognition (NER) model using spaCy**
+- **Implemented NER inference and evaluation using Precision, Recall, and F1-score metrics**
+- **Built rule-based post-processing and validation logic for:**
+  - **Date normalization and format validation**
+  - **Monetary value validation**
+  - **Termination clause detection**
+- **Integrated NER and validation components into a structured JSON output format**
+- **Developed the end-to-end extraction pipeline (OCR → NER → Validation → Structured Output)**
+- **Prepared Docker configuration for containerized execution**
+- **Created evaluation scripts, sample test inputs, and technical documentation**
+
 
 <u>Contributors</u>
 
